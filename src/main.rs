@@ -1,3 +1,5 @@
+use std::env;
+
 use sysfs_pwm::{Pwm, Result};
 
 // PIN: EHRPWM0A (P9_22)
@@ -29,11 +31,15 @@ fn pwm_decrease_to_minimum(pwm: &Pwm, duration_ms: u32, update_period_ms: u32) -
 /// Make an LED "breathe" by increasing and
 /// decreasing the brightness
 fn main() {
+
+    let args: Vec<String> = env::args().collect();
+    let period = args[1].parse::<u32>().unwrap();
+    let duty_cycle = args[2].parse::<u32>().unwrap();
     let pwm = Pwm::new(BB_PWM_CHIP, BB_PWM_NUMBER).unwrap(); // number depends on chip, etc.
     pwm.with_exported(|| {
         pwm.enable(true).unwrap();
-        pwm.set_period_ns(10_000).unwrap();
-        pwm.set_duty_cycle_ns(800).unwrap();
+        pwm.set_period_ns(period).unwrap();
+        pwm.set_duty_cycle_ns(duty_cycle).unwrap();
 
         let p = pwm.get_period_ns().unwrap();
 
