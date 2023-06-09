@@ -1,9 +1,10 @@
 extern crate sysfs_pwm;
+use std::env;
 use sysfs_pwm::{Pwm, Result};
 
 // PIN: GPIO4 (P9_33)
-const LED_PWM_CHIP: u32 = 3;
-const LED_PWM_PIN: u32 = 1;
+const LED_PWM_CHIP: u32 = 0;
+const LED_PWM_PIN: u32 = 0;
 
 fn blink_led(pwm: &Pwm, period_ns: u32, duty_cycle_ns: u32, num_cycles: u32) -> Result<()> {
     pwm.set_period_ns(period_ns)?;
@@ -24,9 +25,19 @@ fn blink_led(pwm: &Pwm, period_ns: u32, duty_cycle_ns: u32, num_cycles: u32) -> 
 }
 
 fn main() {
+    let args: Vec<String> = env::args().collect();
+    if args.len() < 4 {
+        println!("Usage: ./blink_led <period_ns> <duty_cycle_ns> <num_cycles>");
+        return;
+    }
+
+    let period_ns = args[1].parse::<u32>().unwrap();
+    let duty_cycle_ns = args[2].parse::<u32>().unwrap();
+    let num_cycles = args[3].parse::<u32>().unwrap();
+
     let pwm = Pwm::new(LED_PWM_CHIP, LED_PWM_PIN).unwrap(); // Number depends on chip, etc.
     pwm.with_exported(|| {
-        blink_led(&pwm, 1_000_000, 500_000, 5) // Blink 5 times with 1-second period and 50% duty cycle
+        blink_led(&pwm, period_ns, duty_cycle_ns, num_cycles)
     })
     .unwrap();
 
