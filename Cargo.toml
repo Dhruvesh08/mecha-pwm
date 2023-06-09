@@ -1,0 +1,11 @@
+[package]
+name = "mecha-pwm"
+version = "0.1.0"
+edition = "2021"
+repository = "https://github.com/Dhruvesh08/mecha-pwm"
+homepage = "https://github.com/Dhruvesh08/mecha-pwm"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+sysfs-pwm = "0.1.0"
