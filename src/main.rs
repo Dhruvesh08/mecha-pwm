@@ -34,8 +34,8 @@ fn main() {
         pwm.enable(true).unwrap();
         pwm.set_period_ns(20_000).unwrap();
         loop {
-            pwm_increase_to_max(&pwm, 1000, 20).unwrap();
-            pwm_decrease_to_minimum(&pwm, 1000, 20).unwrap();
+            pwm_increase_to_max(&pwm, 10, 10000).unwrap();
+            pwm_decrease_to_minimum(&pwm, 10000, 10).unwrap();
         }
     })
     .unwrap();
