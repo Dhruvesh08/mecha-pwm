@@ -35,10 +35,15 @@ fn main() {
     let period = args[1].parse::<u32>().unwrap();
     let duty_cycle = args[2].parse::<u32>().unwrap();
     let pwm = Pwm::new(BB_PWM_CHIP, BB_PWM_NUMBER).unwrap(); // number depends on chip, etc.
-    pwm.export().unwrap();
-    pwm.enable(true).unwrap();
-    pwm.set_period_ns(period).unwrap();
-    pwm.set_duty_cycle_ns(duty_cycle).unwrap();
-    pwm.enable(false).unwrap();
-    pwm.unexport().unwrap();
+    pwm.with_exported(|| {
+        Ok({
+            pwm.enable(true).unwrap();
+            pwm.set_period_ns(period).unwrap();
+            pwm.set_duty_cycle_ns(duty_cycle).unwrap();
+            sleep(Duration::from_millis(3000));
+            pwm.enable(false).unwrap();
+            pwm.unexport().unwrap();
+        })
+    })
+    .unwrap();
 }
