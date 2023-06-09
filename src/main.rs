@@ -32,8 +32,8 @@ fn main() {
     let pwm = Pwm::new(BB_PWM_CHIP, BB_PWM_NUMBER).unwrap(); // number depends on chip, etc.
     pwm.with_exported(|| {
         pwm.enable(true).unwrap();
-        pwm.set_period_ns(20_000).unwrap();
-        pwm.set_duty_cycle_ns(20_000).unwrap();
+        pwm.set_period_ns(10_000).unwrap();
+        pwm.set_duty_cycle_ns(1_000).unwrap();
         loop {
             pwm_increase_to_max(&pwm, 10, 10000).unwrap();
             pwm_decrease_to_minimum(&pwm, 10000, 10).unwrap();
