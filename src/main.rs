@@ -46,6 +46,6 @@ fn main() {
     })
     .unwrap();
 
-    pwm.enable(false).unwrap();
+    // pwm.enable(false).unwrap();
     pwm.unexport().unwrap();
 }
