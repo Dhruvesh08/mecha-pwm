@@ -33,10 +33,16 @@ fn main() {
     pwm.with_exported(|| {
         pwm.enable(true).unwrap();
         pwm.set_period_ns(10_000).unwrap();
-        pwm.set_duty_cycle_ns(1_000).unwrap();
+        pwm.set_duty_cycle_ns(800).unwrap();
+
+        let p = pwm.get_period_ns().unwrap();
+
+        let d = pwm.get_duty_cycle_ns().unwrap();
+
+        println!("set period to {p} ns, duty cycle to {d} ns");
         loop {
-            pwm_increase_to_max(&pwm, 10, 10000).unwrap();
-            pwm_decrease_to_minimum(&pwm, 10000, 10).unwrap();
+            pwm_increase_to_max(&pwm, 100, 10000).unwrap();
+            pwm_decrease_to_minimum(&pwm, 10000, 100).unwrap();
         }
     })
     .unwrap();
