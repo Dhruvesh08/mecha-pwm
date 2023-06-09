@@ -42,9 +42,10 @@ fn main() {
             pwm.set_period_ns(period).unwrap();
             pwm.set_duty_cycle_ns(duty_cycle).unwrap();
             // sleep(Duration::from_millis(3000));
-            pwm.enable(false).unwrap();
-            pwm.unexport().unwrap();
         })
     })
     .unwrap();
+
+    pwm.enable(false).unwrap();
+    pwm.unexport().unwrap();
 }
